@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CycleTrack - Your Ultimate Cycling Companion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+        
+        .image-section {
+            width: 50%;
+            background-color: #000;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .form-section {
+            width: 50%;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .login-form, .signup-form, .welcome-back {
+            display: none;
+        }
+        
+        .active {
+            display: block;
+        }
+        
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: #212121;
+        }
+        
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+        
+        .social-login {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .social-btn {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .social-btn:hover {
+            background: #f9f9f9;
+        }
+        
+        .social-btn img {
+            margin-right: 10px;
+            height: 20px;
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: #888;
+        }
+        
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .divider span {
+            padding: 0 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border 0.3s ease;
+        }
+        
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus {
+            border-color: #000;
+            outline: none;
+        }
+        
+        .password-container {
+            position: relative;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #888;
+        }
+        
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+        
+        .remember-me input {
+            margin-right: 8px;
+        }
+        
+        .forgot-password {
+            color: #333;
+            text-decoration: none;
+        }
+        
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: #000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .submit-btn:hover {
+            background: #333;
+        }
+        
+        .switch-form {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .switch-form a {
+            color: #000;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .switch-form a:hover {
+            text-decoration: underline;
+        }
+        
+        .quote {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            color: white;
+            max-width: 80%;
+        }
+        
+        .quote p {
+            color: #ddd;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        
+        .arrow-nav {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            border: 2px solid white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #222;
+            color: white;
+            padding: 40px 0;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        
+        .footer-column {
+            flex: 1;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul li a {
+            color: #ddd;
+            text-decoration: none;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .social-icons a {
+            color: white;
+            font-size: 20px;
+        }
+        
+        .app-links {
+            margin-top: 20px;
+        }
+        
+        .app-links a {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 10px 20px;
+            border: 1px solid white;
+            border-radius: 5px;
+            color: white;
+            text-decoration: none;
+        }
+        
+        /* Tag styles */
+        .tag {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+        
+        .tag .icon {
+            margin-right: 5px;
+            background: #333;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .tag.tag-1 {
+            top: 100px;
+            left: 50px;
+        }
+        
+        .tag.tag-2 {
+            bottom: 150px;
+            right: 50px;
+        }
+        
+        /* Footer */
+        .site-footer {
+            background-color: #222;
+            padding: 40px 0;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 200px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .footer-column ul li {
+            margin-bottom: 8px;
+        }
+        
+        .footer-column ul li a {
+            color: #ddd;
+            text-decoration: none;
+        }
+        
+        .footer-column ul li a:hover {
+            color: white;
+        }
+        
+        .app-downloads {
+            margin-top: 20px;
+        }
+        
+        .app-btn {
+            display: inline-block;
+            padding: 8px 15px;
+            border: 1px solid white;
+            border-radius: 4px;
+            color: white;
+            text-decoration: none;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .social-connect {
+            margin-top: 10px;
+        }
+        
+        .social-connect a {
+            display: inline-block;
+            margin-right: 15px;
+            font-size: 20px;
+            color: white;
+        }
+        
+        /* Image slider */
+        .image-slider {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        
+        .slide.active {
+            opacity: 1;
+        }
+        
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Google and Facebook button styles */
+        .google-btn, .facebook-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-icon {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+        
+        .google-icon {
+            color: #4285F4;
+        }
+        
+        .facebook-icon {
+            color: #1877F2;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="navbar">
+        
+                <a href="website.html">Home</a>
+                <a href="buypage.html">Buy</a>
+                <a href="login.html">Login</a>
+                <a href="account.html">Account</a>
+                <a href="publicprofile.html">Public Profile</a>
+ 
+        </nav>
+    </header>
+    <div class="container">
+        <div class="image-section">
+            <div class="image-slider">
+                <div class="slide active">
+                    <img src="C:\Users\BHAVYA\OneDrive\Pictures\Screenshots\Screenshot 2025-03-22 190606.png" alt="Modern architectural structure with geometric lines">
+                    <div class="tag tag-1">
+                        <div class="icon">⚡</div>
+                        <span>Royal Stock Art</span>
+                    </div>
+                    <div class="tag tag-2">
+                        <div class="icon">⚡</div>
+                        <span>Art Gallery</span>
+                    </div>
+                </div>
+                <div class="slide">
+                    <img src="C:\Users\BHAVYA\OneDrive\Pictures\Screenshots\Screenshot 2025-03-22 190837.png" alt="Close-up of bicycle handlebars">
+                    <div class="quote">
+                        <p>You can get everything you want if you work hard, trust the process, and stick to the plan.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="arrow-nav" id="next-slide">→</div>
+        </div>
+        
+        <div class="form-section">
+            <!-- Sign Up Form -->
+            <div class="signup-form">
+                <h1>Create Account</h1>
+                <p>Join our community of cyclists today</p>
+                
+                <div class="social-login">
+                    <button class="social-btn google-btn">
+                        <span class="btn-icon google-icon">G</span> Google
+                    </button>
+                    <button class="social-btn facebook-btn">
+                        <span class="btn-icon facebook-icon">f</span> Facebook
+                    </button>
+                </div>
+                
+                <div class="divider"><span>Or continue with</span></div>
+                
+                <form id="signup-form">
+                    <div class="form-group">
+                        <input type="text" id="fullname" placeholder="Full Name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="email" id="email-signup" placeholder="Enter Email" required>
+                    </div>
+                    
+                    <div class="form-group password-container">
+                        <input type="password" id="password-signup" placeholder="Password" required>
+                        <span class="toggle-password">👁️</span>
+                    </div>
+                    
+                    <div class="form-group password-container">
+                        <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+                        <span class="toggle-password">👁️</span>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Create Account</button>
+                </form>
+                
+                <div class="switch-form">
+                    <p>Already have an account? <a href="#" id="to-login">Sign In</a></p>
+                </div>
+            </div>
+            
+            <!-- Sign In Form -->
+            <div class="login-form">
+                <h1>Sign In</h1>
+                <p>Welcome back, please enter your details</p>
+                
+                <div class="social-login">
+                    <button class="social-btn google-btn">
+                        <span class="btn-icon google-icon">G</span> Google
+                    </button>
+                    <button class="social-btn facebook-btn">
+                        <span class="btn-icon facebook-icon">f</span> Facebook
+                    </button>
+                </div>
+                
+                <div class="divider"><span>Or continue with email</span></div>
+                
+                <form id="login-form">
+                    <div class="form-group">
+                        <input type="email" id="email-login" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group password-container">
+                        <input type="password" id="password-login" placeholder="Enter your password" required>
+                        <span class="toggle-password">👁️</span>
+                    </div>
+                    
+                    <div class="remember-forgot">
+                        <label class="remember-me">
+                            <input type="checkbox" id="remember"> Remember me
+                        </label>
+                        <a href="#" class="forgot-password">Forgot Password</a>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Sign In</button>
+                </form>
+                
+                <div class="switch-form">
+                    <p>Don't have an account? <a href="#" id="to-signup">Sign Up</a></p>
+                </div>
+            </div>
+            
+            <!-- Welcome Back -->
+            <div class="welcome-back active">
+                <h1>Welcome Back</h1>
+                <p>Enter your email and password to access your account</p>
+                
+                <div class="social-login">
+                    <button class="social-btn google-btn">
+                        <span class="btn-icon google-icon">G</span> Google
+                    </button>
+                    <button class="social-btn facebook-btn">
+                        <span class="btn-icon facebook-icon">f</span> Facebook
+                    </button>
+                </div>
+                
+                <div class="divider"><span>Or continue with email</span></div>
+                
+                <form id="welcome-form">
+                    <div class="form-group">
+                        <input type="email" id="email-welcome" placeholder="Enter your email" required>
+                    </div>
+                    
+                    <div class="form-group password-container">
+                        <input type="password" id="password-welcome" placeholder="Enter your password" required>
+                        <span class="toggle-password">👁️</span>
+                    </div>
+                    
+                    <div class="remember-forgot">
+                        <label class="remember-me">
+                            <input type="checkbox" id="remember-welcome"> Remember me
+                        </label>
+                        <a href="#" class="forgot-password">Forgot Password</a>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">Sign In</button>
+                </form>
+                
+                <div class="switch-form">
+                    <p>Don't have an account? <a href="#" id="welcome-to-signup">Sign Up</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="site-footer">
+        <div class="footer-links">
+            <div class="footer-column">
+                <h3>QUICK LINK</h3>
+                <ul>
+                    <li><a href="#">Home Page</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>COMMUNITY</h3>
+                <ul>
+                    <li><a href="#">Career Page</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Supports</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Affiliate Marketing</a></li>
+                    <li><a href="#">Partnership</a></li>
+                    <li><a href="#">Terms & Condition</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>ACTION LINK</h3>
+                <ul>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Payments</a></li>
+                    <li><a href="#">Comic Books</a></li>
+                    <li><a href="#">Community</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>CONNECT US</h3>
+                <div class="social-connect">
+                    <a href="#">f</a>
+                    <a href="#">📷</a>
+                    <a href="#">🐦</a>
+                    <a href="#">▶️</a>
+                    <a href="#">🎵</a>
+                </div>
+                <h3 style="margin-top: 30px;">GET THE APP</h3>
+                <div class="app-downloads">
+                    <a href="#" class="app-btn">▶️ PLAY STORE</a>
+                    <a href="#" class="app-btn">🍎 APP STORE</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle between forms
+        document.getElementById('to-login').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('.signup-form').classList.remove('active');
+            document.querySelector('.login-form').classList.add('active');
+            document.querySelector('.welcome-back').classList.remove('active');
+        });
+        
+        document.getElementById('to-signup').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('.login-form').classList.remove('active');
+            document.querySelector('.signup-form').classList.add('active');
+            document.querySelector('.welcome-back').classList.remove('active');
+        });
+        
+        document.getElementById('welcome-to-signup').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelector('.welcome-back').classList.remove('active');
+            document.querySelector('.signup-form').classList.add('active');
+            document.querySelector('.login-form').classList.remove('active');
+        });
+        
+        // Toggle password visibility
+        const togglePasswordButtons = document.querySelectorAll('.toggle-password');
+        togglePasswordButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const passwordField = this.previousElementSibling;
+                if (passwordField.type === 'password') {
+                    passwordField.type = 'text';
+                    this.textContent = '🔒';
+                } else {
+                    passwordField.type = 'password';
+                    this.textContent = '👁️';
+                }
+            });
+        });
+        
+        // Form submission handling
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email-login').value;
+            const password = document.getElementById('password-login').value;
+            
+            // Simple validation
+            if (email && password) {
+                alert('Login successful! Redirecting to dashboard...');
+                // In a real application, you would redirect or update UI here
+            } else {
+                alert('Please fill in all fields');
+            }
+        });
+        
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const fullname = document.getElementById('fullname').value;
+            const email = document.getElementById('email-signup').value;
+            const password = document.getElementById('password-signup').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            
+            // Simple validation
+            if (fullname && email && password) {
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match');
+                    return;
+                }
+                alert('Account created successfully! Please log in.');
+                // Switch to login form
+                document.querySelector('.signup-form').classList.remove('active');
+                document.querySelector('.login-form').classList.add('active');
+            } else {
+                alert('Please fill in all fields');
+            }
+        });
+        
+        document.getElementById('welcome-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email-welcome').value;
+            const password = document.getElementById('password-welcome').value;
+            
+            // Simple validation
+            if (email && password) {
+                alert('Login successful! Redirecting to dashboard...');
+                // In a real application, you would redirect or update UI here
+            } else {
+                alert('Please fill in all fields');
+            }
+        });
+        
+        // Image slider functionality
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            currentSlide = (index + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+        }
+        
+        document.getElementById('next-slide').addEventListener('click', function() {
+            showSlide(currentSlide + 1);
+        });
+        
+        // Auto-rotate slides every 5 seconds
+        setInterval(() => {
+            showSlide(currentSlide + 1);
+        }, 5000);
+    </script>
+</body>
+</html>
